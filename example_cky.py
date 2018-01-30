@@ -14,7 +14,7 @@ import argparse
 import re
 
 # -------------------------------------------
-# Root Symbol Definition
+# Global Root Symbol
 # -------------------------------------------
 ROOT_SYMBOL = None
 
@@ -177,12 +177,11 @@ def main():
 
     grammar_cnf = get_grammar(nltk.data.load('file:{}'.format(args.grammarfile)))
     output_file = open(args.outputfile, 'w')
-    # TODO : if it ever doesn't come up with a parse it stops parsing the whole file. Need to make sure it instead prints
     # a blank line
     with open(args.sentfile, 'r') as sent_f:
 
         for sent in sent_f.readlines():
-            sent = sent[:-1]
+            #sent = sent[:-1]
             words = nltk.word_tokenize(sent)
             if len(words) > 0:
                 trees = cky_table(grammar_cnf, words)
@@ -191,11 +190,13 @@ def main():
                 #print(sent + ' ['+str(len(trees))+' parse(s)]\n')
 
                 # Prettyprint the resulting parses.
+                if not trees:
+                    output_file.write('\n')
                 for tree in trees:
                     output_file.write('{}\n'.format(tree))
                     # we are not using the pretty print since we want our tree on one line
                     #pprint(tree)
-            else:
-                output_file.write('\n')
+            #else:
+                #output_file.write('\n')
 
 main()
