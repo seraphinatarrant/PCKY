@@ -29,7 +29,7 @@ def traverseTree(t):
 
 	if len(t) == 1: 
 		#base case - unit productions
-		RHS = t[0] , "" #get the word for the terminal symbol
+		RHS = "\""+str(t[0])+"\"" , "" #get the word for the terminal symbol
 		storeRule(LHS,RHS)	
 	else: 
 		#binary productions
