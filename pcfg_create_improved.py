@@ -31,7 +31,7 @@ def traverseTree(t,parent):
 
 	if len(t) == 1: 
 		#base case - unit productions
-		RHS = t[0] , "" #get the word for the terminal symbol
+		RHS = "\""+str(t[0])+"\"" , "" #get the word for the terminal symbol
 		storeRule(LHS,RHS)	
 	else: 
 		#binary productions
@@ -74,7 +74,7 @@ def main():
 		if sent: #to avoid empty lines
 			#sent = treebank_sentences[2]
 			t = Tree.fromstring(sent)
-			#START_SYMBOL = t.label()
+			START_SYMBOL = t.label()
 			#traverse the parse tree for this sentence and add to the RuleCountDict
 			traverseTree(t,None)
 	
@@ -82,12 +82,15 @@ def main():
 	for rule_tuple in RuleCountDict: 
 		thisLHS = rule_tuple[0]
 
+		if thisLHS[0] == START_SYMBOL: 
+			print ("%start "+str(START_SYMBOL))
+
 		this_prob = str(RuleCountDict[rule_tuple]/LHSCountDict[thisLHS])
 
 		if rule_tuple[1][1] == "": 
-			print (str(rule_tuple[0]) + " -> " + str(rule_tuple[1][0]) + " [" + this_prob + "]")
+			print (str(thisLHS[0]) + "+" +str(thisLHS[0])+ " -> " + str(rule_tuple[1][0]) + " [" + this_prob + "]")
 		else: 
-			print (str(rule_tuple[0]) + " -> " + str(rule_tuple[1][0]) + " " +str(rule_tuple[1][1]) +" [" + this_prob + "]")
+			print (str(thisLHS[0]) + "+" + str(thisLHS[0])+" -> " + str(rule_tuple[1][0]) + " " +str(rule_tuple[1][1]) +" [" + this_prob + "]")
 
 if __name__ == "__main__": 
 	main()	
