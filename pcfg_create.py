@@ -7,7 +7,7 @@ from nltk import Tree
 #stores (A,B,C) -> count for binary rules 
 #(A,'x') -> count mapping for unit productions
 RuleCountDict = {} 
-CountTotalRules = 0.0 #count of total rules in this grammar
+LHSCountDict = {}
 
 def OpenAndReadFile(fileName): 
 	'''
@@ -42,36 +42,43 @@ def storeRule(thisLHS,thisRHS):
 	#increment count for the given rule in the RuleCountDict
 
 	global RuleCountDict
-	global CountTotalRules
+	global LHSCountDict
 
+	if thisLHS in LHSCountDict: 
+		LHSCountDict[thisLHS] += 1
+	else: 
+		LHSCountDict[thisLHS] = 1.0
+
+	#add to the Rule count dict
 	thisKey = thisLHS,thisRHS
 	if thisKey in RuleCountDict: 
-		RuleCountDict[thisKey] +=1 #increment count if rule already counted once
+		RuleCountDict[thisKey] += 1 #increment count if rule already counted once
 	else: 
-		RuleCountDict[thisKey] = 1  #add rule and set count to 1, if counted for first time	
+		RuleCountDict[thisKey] = 1.0  #add rule and set count to 1, if counted for first time	
 
-	CountTotalRules +=1	
+	#CountTotalRules +=1	
 		
 def main(): 
 	'''
 	Reads in a treebank and outputs a PCFG
 	'''
-	global CountTotalRules
+	#global CountTotalRules
 	global RuleCountDict
+	global LHSCountDict
 	treebank_sentences = OpenAndReadFile(sys.argv[1]).split("\n")
 
 	for sent in treebank_sentences: 
-		if sent: #to avoid empty lines
-			#sent = treebank_sentences[2]
+		if sent: #to avoid empty lines in training file
+			
 			t = Tree.fromstring(sent)
 			
 			#traverse the parse tree for this sentence and add to the RuleCountDict
 			traverseTree(t)
 	
-	#print (RuleCountDict)
 	for rule_tuple in RuleCountDict: 
+		thisLHS = rule_tuple[0]
 		
-		this_prob = str(RuleCountDict[rule_tuple]/CountTotalRules)
+		this_prob = str(RuleCountDict[rule_tuple]/LHSCountDict[thisLHS])
 
 		if rule_tuple[1][1] == "": 
 			print (str(rule_tuple[0]) + " -> " + str(rule_tuple[1][0]) + " [" + this_prob + "]")
