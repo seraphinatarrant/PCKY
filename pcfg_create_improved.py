@@ -1,3 +1,11 @@
+'''
+Command to run this python file: 
+
+	$python3.4 pcfg_create_improved.py parses.train hw4_improved.pcfg
+
+'''
+
+
 import sys
 import os
 import re
@@ -8,6 +16,7 @@ from nltk import Tree
 #(A,'x') -> count mapping for unit productions
 RuleCountDict = {} 
 LHSCountDict = {}
+
 #START_SYMBOL= None #initialize start symbol variable with None value
 #CountTotalRules = 0.0 #count of total rules in this grammar
 
@@ -33,6 +42,7 @@ def traverseTree(t,parent):
 		#base case - unit productions
 		RHS = "\""+str(t[0])+"\"" , "" #get the word for the terminal symbol
 		storeRule(LHS,RHS)	
+
 	else: 
 		#binary productions
 		RHS = t[0].label(), t[1].label()  #(B,C)
@@ -88,9 +98,9 @@ def main():
 		this_prob = str(RuleCountDict[rule_tuple]/LHSCountDict[thisLHS])
 
 		if rule_tuple[1][1] == "": 
-			print (str(thisLHS[0]) + "+" +str(thisLHS[0])+ " -> " + str(rule_tuple[1][0]) + " [" + this_prob + "]")
+			print (str(thisLHS[0]) + "^" +str(thisLHS[1])+ " -> " + str(rule_tuple[1][0]) + " [" + this_prob + "]")
 		else: 
-			print (str(thisLHS[0]) + "+" + str(thisLHS[0])+" -> " + str(rule_tuple[1][0]) + " " +str(rule_tuple[1][1]) +" [" + this_prob + "]")
+			print (str(thisLHS[0]) + "^" + str(thisLHS[1])+" -> " + str(rule_tuple[1][0]) + "^" +thisLHS[0] + " " +str(rule_tuple[1][1] + "^" +thisLHS[0]) +" [" + this_prob + "]")
 
 if __name__ == "__main__": 
 	main()	
