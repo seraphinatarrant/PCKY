@@ -94,13 +94,21 @@ def main():
 
 		if thisLHS[0] == START_SYMBOL: 
 			print ("%start "+str(START_SYMBOL))
+			this_prob = str(RuleCountDict[rule_tuple]/LHSCountDict[thisLHS])
 
-		this_prob = str(RuleCountDict[rule_tuple]/LHSCountDict[thisLHS])
+			if rule_tuple[1][1] == "": 
+				print (str(thisLHS[0]) + "^" +str(thisLHS[1])+ " -> " + str(rule_tuple[1][0]) + " [" + this_prob + "]")
+			else: 
+				print (str(thisLHS[0]) + " -> " + str(rule_tuple[1][0]) + "^" +thisLHS[0] + " " +str(rule_tuple[1][1] + "^" +thisLHS[0]) +" [" + this_prob + "]")
 
-		if rule_tuple[1][1] == "": 
-			print (str(thisLHS[0]) + "^" +str(thisLHS[1])+ " -> " + str(rule_tuple[1][0]) + " [" + this_prob + "]")
 		else: 
-			print (str(thisLHS[0]) + "^" + str(thisLHS[1])+" -> " + str(rule_tuple[1][0]) + "^" +thisLHS[0] + " " +str(rule_tuple[1][1] + "^" +thisLHS[0]) +" [" + this_prob + "]")
+
+			this_prob = str(RuleCountDict[rule_tuple]/LHSCountDict[thisLHS])
+
+			if rule_tuple[1][1] == "": 
+				print (str(thisLHS[0]) + "^" +str(thisLHS[1])+ " -> " + str(rule_tuple[1][0]) + " [" + this_prob + "]")
+			else: 
+				print (str(thisLHS[0]) + "^" + str(thisLHS[1])+" -> " + str(rule_tuple[1][0]) + "^" +thisLHS[0] + " " +str(rule_tuple[1][1] + "^" +thisLHS[0]) +" [" + this_prob + "]")
 
 if __name__ == "__main__": 
 	main()	
