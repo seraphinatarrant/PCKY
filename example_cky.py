@@ -150,7 +150,6 @@ def get_best_tree(row, col, symbol, backpointer_table, words):
     :param backpointer_table:
     :return:
     """
-
     all_backpointers_list = backpointer_table[row, col][symbol]
     # returns bp with highest prob
     winner = max(all_backpointers_list, key=lambda x: x[3])
@@ -163,6 +162,9 @@ def get_best_tree(row, col, symbol, backpointer_table, words):
     trees_right = get_best_tree(mid, col, head2, backpointer_table, words)
     for tree_l in trees_left:
         for tree_r in trees_right:
+            # if it is parent annotated with a ^ (reserved symbol), will split and keep only the non parent annotated
+            # symbol for printing. This is so that evaluation can be run against a non-annotated version.
+            symbol = symbol.symbol().split('^')[0]
             trees.append('(%s %s %s)' % (symbol, tree_l, tree_r))
 
     return(trees)
