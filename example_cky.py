@@ -156,6 +156,7 @@ def get_best_tree(row, col, symbol, backpointer_table, words):
 
     mid, head1, head2, prob = winner
     if mid is head1 is head2 is None:
+        symbol = symbol.symbol().split('^')[0]
         return ['(%s %s)' % (symbol, words[row])]
     trees = []
     trees_left = get_best_tree(row, mid, head1, backpointer_table, words)
@@ -163,7 +164,8 @@ def get_best_tree(row, col, symbol, backpointer_table, words):
     for tree_l in trees_left:
         for tree_r in trees_right:
             # if it is parent annotated with a ^ (reserved symbol), will split and keep only the non parent annotated
-            # symbol for printing. This is so that evaluation can be run against a non-annotated version.
+            # symbol for printing. This is so that evaluation can be run against a non-annotated version. If no ^,
+            #it does nothing
             symbol = symbol.symbol().split('^')[0]
             trees.append('(%s %s %s)' % (symbol, tree_l, tree_r))
 
