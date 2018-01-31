@@ -1,2 +1,2 @@
 #!/bin/sh
-python3.4 example_cky.py $1 $3 > $2
+python3 example_cky.py $1 $2 $3
