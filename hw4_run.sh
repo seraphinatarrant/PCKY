@@ -23,9 +23,9 @@ sh hw4_improved_induction.sh $treebank_filename $input_PCFG_file
 sh hw4_parser.sh $input_PCFG_file $test_sentence_filename $improved_parse_output_filename
 
 #run evalb on non-improved
-#dropbox/17-18/571/hw4/tools/evalb -p dropbox/17-18/571/hw4/tools/COLLINS.prm dropbox/17-18/571/hw4/data/parses.gold $baseline_parse_output_filename
+dropbox/17-18/571/hw4/tools/evalb -p dropbox/17-18/571/hw4/tools/COLLINS.prm dropbox/17-18/571/hw4/data/parses.gold $baseline_parse_output_filename
 
 #run evalb on improved
-#dropbox/17-18/571/hw4/tools/evalb -p dropbox/17-18/571/hw4/tools/COLLINS.prm dropbox/17-18/571/hw4/data/parses.gold $improved_parse_output_filename
+dropbox/17-18/571/hw4/tools/evalb -p dropbox/17-18/571/hw4/tools/COLLINS.prm dropbox/17-18/571/hw4/data/parses.gold $improved_parse_output_filename
 
 #./hw4_run.sh data/parses.train PCKY/hw4_trained.pcfg data/sentences.txt PCKY/parses_base.out PCKY/hw4_improved.pcfg PCKY/parses_improved.out PCKY/parses_base.eval PCKY/parses_improved.eval
