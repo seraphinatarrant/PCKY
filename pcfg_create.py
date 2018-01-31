@@ -66,18 +66,21 @@ def main():
 	global RuleCountDict
 	global LHSCountDict
 	treebank_sentences = OpenAndReadFile(sys.argv[1]).split("\n")
-
+	
 	for sent in treebank_sentences: 
 		if sent: #to avoid empty lines in training file
 			
 			t = Tree.fromstring(sent)
-			
+			START_SYMBOL = t.label()
 			#traverse the parse tree for this sentence and add to the RuleCountDict
 			traverseTree(t)
 	
 	for rule_tuple in RuleCountDict: 
 		thisLHS = rule_tuple[0]
-		
+
+		if thisLHS == START_SYMBOL: 
+			print ("%start "+str(START_SYMBOL))
+
 		this_prob = str(RuleCountDict[rule_tuple]/LHSCountDict[thisLHS])
 
 		if rule_tuple[1][1] == "": 
